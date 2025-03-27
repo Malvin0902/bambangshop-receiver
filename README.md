@@ -59,25 +59,25 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   Open another new terminal, edit `ROCKET_PORT` in `.env` to `8003`, then execute `cargo run`.
 
 ## Mandatory Checklists (Subscriber)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create SubscriberRequest model struct.`
-    -   [ ] Commit: `Create Notification database and Notification repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Notification repository.`
-    -   [ ] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create SubscriberRequest model struct.`
+    -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Notification repository.`
+    -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -86,4 +86,24 @@ This is the place for you to write reflections:
 
 #### Reflection Subscriber-1
 
+1. **Why is `RwLock<>` necessary instead of `Mutex<>`?**
+
+    We use `RwLock<Vec<Notification>>` to allow concurrent reading of notifications while restricting writing to one thread at a time. This is more efficient than `Mutex<>`, which blocks all threads during writing, including readers. Since notifications are read more often than written, `RwLock<>` enhances performance by allowing concurrent reads.
+
+2. **Why does Rust not allow mutation of static variables like Java?**
+
+    Rust avoids mutable static variables to prevent data races and ensure thread safety. Unlike Java’s GC, Rust enforces strict ownership and borrowing rules. Instead of direct mutation, Rust provides safe alternatives like `lazy_static!` and `DashMap` for managing mutable data with safe concurrent access.
+
 #### Reflection Subscriber-2
+
+1. **Have you explored things outside of the steps in the tutorial (e.g., src/lib.rs)?**
+
+    **Yes**, I explored `lib.rs` and `main.rs`. In `lib.rs`, I learned about global configuration handling with `lazy_static!` and error handling. In `main.rs`, I saw how dependencies are managed, the application is bootstrapped, and routes are registered dynamically.
+
+2. **How does the Observer pattern help with adding subscribers?**
+
+    The Observer pattern decouples publishers from subscribers, making it easy to add new subscribers without modifying the publisher. It also allows independent handling of notifications, ensuring that the publisher only sends updates to registered subscribers.
+
+3. **Have you tested with Postman or written custom tests?**
+
+    **Yes**, I used Postman for testing. Since we need multiple instances of the app, I created custom tests in Postman and grouped them into collections to streamline the process, but we haven't fully implemented the paths yet. We'll continue using Postman for API testing.
